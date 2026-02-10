@@ -1,6 +1,6 @@
 {
   "name": "polegunning",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Pole vaulting + mid-air shooting browser game",
   "type": "module",
   "scripts": {
@@ -8,7 +8,12 @@
     "build": "vite build",
     "preview": "vite preview"
   },
-  "keywords": ["game", "phaser", "pole-vault", "shooting"],
+  "keywords": [
+    "game",
+    "phaser",
+    "pole-vault",
+    "shooting"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {

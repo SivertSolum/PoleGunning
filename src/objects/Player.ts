@@ -128,14 +128,13 @@ export class Player extends Phaser.GameObjects.Sprite {
     const totalPower = this.vaultPower + (this.runSpeed / PLAYER_RUN_SPEED_MAX) * 200;
     const angleRad = Phaser.Math.DegToRad(this.vaultAngle);
     return {
-      vx: Math.cos(angleRad) * totalPower * 0.45,
+      vx: Math.cos(angleRad) * totalPower * 0.35,
       vy: -Math.sin(angleRad) * totalPower * 1.0,
     };
   }
 
   shoot(): boolean {
-    if (this.ammo <= 0) return false;
-    this.ammo--;
+    // Unlimited ammo
     this.state = 'shooting';
     this.animTimer = 0;
     return true;

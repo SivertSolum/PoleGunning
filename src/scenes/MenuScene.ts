@@ -120,6 +120,13 @@ export class MenuScene extends Phaser.Scene {
       color: '#666666',
     }).setOrigin(0.5, 0.5);
 
+    // Version number (injected from package.json at build time)
+    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 6, `v${__APP_VERSION__}`, {
+      fontFamily: '"Press Start 2P", monospace',
+      fontSize: '6px',
+      color: '#444444',
+    }).setOrigin(0.5, 0.5);
+
     // Title animation
     this.tweens.add({
       targets: title1,

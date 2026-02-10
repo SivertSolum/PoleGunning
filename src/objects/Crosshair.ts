@@ -8,6 +8,8 @@ export class Crosshair extends Phaser.GameObjects.Sprite {
     this.setDisplaySize(16, 16);
     this.setDepth(100);
     this.setVisible(true);
+    // Render in screen space so camera scroll/shake never affects position
+    this.setScrollFactor(0);
     this.scene.input.setDefaultCursor('none');
   }
 
@@ -20,8 +22,12 @@ export class Crosshair extends Phaser.GameObjects.Sprite {
   }
 
   updatePosition(pointer: Phaser.Input.Pointer): void {
-    this.x = pointer.worldX;
-    this.y = pointer.worldY;
+    // Use screen-space coordinates for pixel-perfect mouse tracking.
+    // pointer.x/y are already in game coordinates (scale-manager adjusted),
+    // so this stays perfectly aligned with the OS cursor regardless of
+    // camera scroll, lerp, or shake.
+    this.x = Math.round(pointer.x);
+    this.y = Math.round(pointer.y);
   }
 }
 

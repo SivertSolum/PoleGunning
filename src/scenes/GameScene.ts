@@ -408,9 +408,14 @@ export class GameScene extends Phaser.Scene {
     // Aiming and shooting
     if (this.phase === 'shooting') {
       const pointer = this.input.activePointer;
-      this.crosshair.updatePosition(pointer);
-      
-      const gunAngle = this.gun.aimAt(pointer.worldX, pointer.worldY);
+      // Compute world coordinates from screen pointer + current (post-lerp)
+      // camera scroll.  This avoids the stale pointer.worldX/Y that Phaser
+      // computed at the start of the frame (before we moved the camera above).
+      const cam = this.cameras.main;
+      const aimWorldX = pointer.x + cam.scrollX;
+      const aimWorldY = pointer.y + cam.scrollY;
+
+      const gunAngle = this.gun.aimAt(aimWorldX, aimWorldY);
       this.gun.setPosition(this.player.x + 8, this.player.y - 30);
 
       // Fire on mouse click (with cooldown)
@@ -429,7 +434,7 @@ export class GameScene extends Phaser.Scene {
 
   private canShoot(): boolean {
     const now = this.time.now;
-    return now - this.lastShotTime > 250; // 250ms between shots
+    return now - this.lastShotTime > 150; // 150ms between shots (faster fire rate)
   }
 
   private fireGun(angle: number): void {
@@ -563,7 +568,7 @@ export class GameScene extends Phaser.Scene {
 
     if (passed) {
       this.player.setState('celebrating');
-      this.playSound('sfx_levelclear', 0.6);
+      this.playSound('sfx_levelclear', 0.35);
     } else {
       this.playSound('sfx_fail', 0.5);
     }
